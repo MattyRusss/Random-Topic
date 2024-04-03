@@ -18,7 +18,6 @@ var topics = [
     "Quantum computing",
     "Autonomous vehicles",
     "Biometric technology",
-    "Big data",
     "E-commerce",
     "Mobile applications",
     "Social media",
@@ -56,7 +55,6 @@ var topics = [
     "Automation",
     "Data mining",
     "Video streaming",
-    "Smartwatches",
     "E-waste management",
     "Facial recognition technology",
     "Online shopping",
@@ -108,10 +106,36 @@ var topics = [
 
 var websites = new Array(topics.length);
 
-for (var i = 0; i < topics.length; i++)
-    websites[i] = `
-        <p style="text-align:center">The topic is "${topics[i]}"</p>
-    `
+// Function to fetch images from Unsplash API for each topic
+async function fetchImages() {
+    const apiKey = '6f5nbqoYYBe1_-pTqmIaGMSIHoIIJBOsbEGsqNogznM';
+    const apiUrl = 'https://api.unsplash.com/photos/random';
+
+    for (let i = 0; i < topics.length; i++) {
+        try {
+            const response = await fetch(`${apiUrl}?query=${topics[i]}&client_id=${apiKey}`);
+            const data = await response.json();
+            const imageUrl = data.urls.regular;
+            websites[i] = `
+                <div style="text-align:center">
+                    <p>The topic is "${topics[i]}"</p>
+                    <img src="${imageUrl}" alt="${topics[i]}" style="max-width: 100%">
+                </div>
+            `;
+        } catch (error) {
+            console.error('Error fetching image:', error);
+            websites[i] = `
+                <div style="text-align:center">
+                    <p>The topic is "${topics[i]}"</p>
+                    <p>No image available</p>
+                </div>
+            `;
+        }
+    }
+}
+
+// Call the fetchImages function to populate the websites array
+fetchImages();
 
 document.querySelector('button').onclick = () => {
     var random = Math.floor(Math.random() * topics.length);
