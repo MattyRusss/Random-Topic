@@ -104,40 +104,51 @@ var topics = [
     "Internet of Robotic Things (IoRT)",
 ];
 
-var websites = new Array(topics.length);
-
-// Function to fetch images from Unsplash API for each topic
-async function fetchImages() {
-    const apiKey = '6f5nbqoYYBe1_-pTqmIaGMSIHoIIJBOsbEGsqNogznM';
-    const apiUrl = 'https://api.unsplash.com/photos/random';
-
-    for (let i = 0; i < topics.length; i++) {
-        try {
-            const response = await fetch(`${apiUrl}?query=${topics[i]}&client_id=${apiKey}`);
-            const data = await response.json();
-            const imageUrl = data.urls.regular;
-            websites[i] = `
-                <div style="text-align:center">
-                    <p>The topic is "${topics[i]}"</p>
-                    <img src="${imageUrl}" alt="${topics[i]}" style="max-width: 100%">
-                </div>
-            `;
-        } catch (error) {
-            console.error('Error fetching image:', error);
-            websites[i] = `
-                <div style="text-align:center">
-                    <p>The topic is "${topics[i]}"</p>
-                    <p>No image available</p>
-                </div>
-            `;
-        }
+// Function to generate random topics
+function generateRandomTopics(num) {
+    var randomTopics = [];
+    for (var i = 0; i < num; i++) {
+        var randomIndex = Math.floor(Math.random() * topics.length);
+        randomTopics.push(topics[randomIndex]);
     }
+    return randomTopics;
 }
 
-// Call the fetchImages function to populate the websites array
-fetchImages();
+// Event listener for "Generate" button (1 topic)
+document.querySelector('.topic1').onclick = () => {
+    var randomIndex = Math.floor(Math.random() * topics.length);
+    var randomTopic = topics[randomIndex];
+    document.querySelector('#box').innerHTML = `<p style="text-align:center">The topic is "${randomTopic}"</p>`;
+};
 
-document.querySelector('button').onclick = () => {
-    var random = Math.floor(Math.random() * topics.length);
-    document.querySelector('#box').innerHTML = websites[random];
-}
+// Event listener for "3 topics" button
+document.querySelector('.topics3').onclick = () => {
+    var randomTopics = generateRandomTopics(3);
+    document.querySelector('#box').innerHTML = randomTopics.map(topic => `<p style="text-align:center">The topic is "${topic}"</p>`).join('');
+};
+
+// Event listener for "5 topics" button
+document.querySelector('.topics5').onclick = () => {
+    var randomTopics = generateRandomTopics(5);
+    document.querySelector('#box').innerHTML = randomTopics.map(topic => `<p style="text-align:center">The topic is "${topic}"</p>`).join('');
+};
+
+// Event listener for "10 topics" button
+document.querySelector('.topics10').onclick = () => {
+    var randomTopics = generateRandomTopics(10);
+    document.querySelector('#box').innerHTML = randomTopics.map(topic => `<p style="text-align:center">The topic is "${topic}"</p>`).join('');
+};
+
+// Event listener for "Download" button
+document.querySelector('.download').onclick = () => {
+    var currentTopics = document.querySelectorAll('#box p');
+    var content = Array.from(currentTopics).map(p => p.innerText.replace('The topic is "', '').replace('"', '')).join('\n');
+    
+    var element = document.createElement('a');
+    var file = new Blob([content], { type: 'text/plain' });
+    element.href = URL.createObjectURL(file);
+    element.download = 'generated_topics.txt';
+    document.body.appendChild(element); // Append anchor element to body
+    element.click(); // Simulate click on the anchor element to trigger download
+    document.body.removeChild(element); // Clean up: remove anchor element from body
+};

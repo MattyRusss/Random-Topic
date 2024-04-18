@@ -1,17 +1,38 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <title>Random website</title>
 </head>
 <body>
-    <header>Generate random topic</header>
-    <button class="btn">Generate</button>
+    <nav>
+        <header>Generate random topic</header>
+    </nav>
+
+    <div class="buttons">
+        <button class="topic1">Generate</button>
+        <button class="topics3">3 Topics</button>
+        <button class="topics5">5 Topics</button>
+        <button class="topics10">10 Topics</button>
+        <button class="download" onclick="createTxtFile();"><i class="fas fa-download"></i></button>
+    </div>
+
     <div id="box">
         <p style="text-align:center">Click <b>generate</b> to generate a topic.</p>
     </div>
+
+    <h1>Use our free template to help build your website: </h1>
+    <div class="buttons">
+        <a href="../Website_Template.zip" download>
+            <button class="webtemplate">Download <i class="fas fa-download"></i> </button>
+        </a>
+    </div>
+
+
     <script src="index.js"></script>
 </body>
 </html>
